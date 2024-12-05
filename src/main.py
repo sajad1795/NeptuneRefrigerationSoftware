@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import PhotoImage
+import random
 
 def setup_icons():
     # ایجاد پنجره اصلی نرم‌افزار
@@ -35,5 +37,60 @@ def setup_icons():
     # اجرای برنامه
     root.mainloop()
 
+class SplashScreen(tk.Toplevel):
+    def __init__(self, root):
+        super().__init__(root)
+        self.root = root
+        self.title("Neptune Refrigeration Software")
+        self.geometry("520x260")  # ابعاد پنجره اسپلش
+        self.configure(bg='black')  # تنظیم پس‌زمینه
+        self.images = [
+            "assets/splash_image_1.png",
+            "assets/splash_image_2.png",
+            "assets/splash_image_3.png",
+            "assets/splash_image_4.png",
+            "assets/splash_image_5.png",
+            "assets/splash_image_6.png",
+            "assets/splash_image_7.png",
+            "assets/splash_image_8.png",
+            "assets/splash_image_9.png",
+            "assets/splash_image_10.png",
+            "assets/splash_image_11.png"
+        ]
+        random.shuffle(self.images)  # ترتیب رندوم تصاویر
+        self.current_image = 0
+        self.image_label = tk.Label(self)
+        self.image_label.pack(fill="both", expand=True)
+
+        self.show_next_image()
+
+    def show_next_image(self):
+        if self.current_image < len(self.images):
+            image = PhotoImage(file=self.images[self.current_image])
+            self.image_label.config(image=image)
+            self.image_label.image = image
+            self.current_image += 1
+            
+            # زمان نمایش تصویر اول 12 ثانیه و سایر تصاویر 10 ثانیه
+            if self.current_image == 1:
+                self.after(12000, self.show_next_image)  # 12 ثانیه برای تصویر اول
+            else:
+                self.after(10000, self.show_next_image)  # 10 ثانیه برای سایر تصاویر
+        else:
+            self.destroy()
+            self.show_main_window()
+
+    def show_main_window(self):
+        # پس از تمام شدن اسپلش اسکرین، پنجره اصلی نرم‌افزار باز می‌شود
+        main_window = tk.Tk()
+        main_window.title("Neptune Refrigeration Software")
+        main_window.geometry("1000x600")  # ابعاد پنجره نرم‌افزار
+        label = tk.Label(main_window, text="Welcome to Neptune Refrigeration Software!", font=("Helvetica", 16))
+        label.pack(pady=50)
+        main_window.mainloop()
+
 if __name__ == "__main__":
-    setup_icons()
+    root = tk.Tk()
+    root.withdraw()  # مخفی کردن پنجره اصلی تا نمایش اسپلش اسکرین
+    splash = SplashScreen(root)
+    splash.mainloop()
