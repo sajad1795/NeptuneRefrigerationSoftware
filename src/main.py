@@ -94,3 +94,17 @@ if __name__ == "__main__":
     root.withdraw()  # مخفی کردن پنجره اصلی تا نمایش اسپلش اسکرین
     splash = SplashScreen(root)
     splash.mainloop()
+import tkinter as tk
+from tkinter import messagebox
+
+def on_close():
+    if messagebox.askokcancel("خروج", "آیا مطمئنید که می‌خواهید پنجره را ببندید؟"):
+        root.destroy()
+
+root = tk.Tk()
+root.title("Neptune Refrigeration Software")
+
+# تنظیم دکمه بستن پنجره
+root.protocol("WM_DELETE_WINDOW", on_close)
+
+root.mainloop()
